@@ -34,14 +34,10 @@ InitOneStateTwoStateModelSelection.m
 Initialisation script which first runs one-state and two-state simulations (both with and without measurement noise). It then runs the approximate model MCMC algorithm for one-state and two-state models, and finally calculates the marginal likelihood for the one-state and two-state models.
 
 
-ChenOneStateNoiseMH.m
-Implementation of Chen's method for approx one-state model.
-
-Reference: Chen MH. Computing marginal likelihoods from a single MCMC output. Statistica Neerlandica. 2005 Jan;59(1):16–29. doi: 10.1111/j.1467-9574.2005.00276.x.
-
-
 ChenTwoStateNoiseMH.m
 Implementation of Chen's method for approx two-state model.
+
+Reference: Chen MH. Computing marginal likelihoods from a single MCMC output. Statistica Neerlandica. 2005 Jan;59(1):16–29. doi: 10.1111/j.1467-9574.2005.00276.x.
 
 
 ChibOneStateNoiseMH.m
