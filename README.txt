@@ -25,4 +25,5 @@ InitTwoStateDiffusion.m
 —————————————————————
 An initialisation script which, for a set of “reasonable” parameters, simulates the two-state model with measurement noise, and then runs the MCMC algorithm (1000 samples) on the simulated trajectory. (Using the simulated noise variance as the variance in the MCMC algorithm.) Also plots the relevant MCMC output. This file takes around 30 seconds to run on my four year old MacBook Pro (4GB RAM).
 
+----------------------------------
 Also included is the ApproxModel folder, which contains files for the approximate likelihood model MCMC and marginal likelihood calculations.
