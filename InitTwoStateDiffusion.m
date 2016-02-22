@@ -142,6 +142,7 @@ legend('simulated U_2','mean inferred U_2')
 xlabel('Time (s)')
 ylabel('U_2')
 
+
 %%trajectory coloured by inferred z 
 figure;hold on;axis off;
 X=Traj.Y(1:end-1,1)';
