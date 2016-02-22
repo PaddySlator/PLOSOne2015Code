@@ -1,4 +1,4 @@
-This repository contains three files, which relate to:
+This repository contains files relating to:
 Slator PJ, Cairo CW, Burroughs NJ (2015)
 Detection of Diffusion Heterogeneity in Single Particle
 Tracking Trajectories Using a Hidden Markov Model
@@ -9,7 +9,7 @@ Paddy J. Slator, Warwick Systems Biology Centre,
 email: paddyslator@gmail.com.
 
 
-The files are:
+The files in the main directory are:
 
 SimulateTwoStateDiffusion.m
 —————————————————————
@@ -25,3 +25,4 @@ InitTwoStateDiffusion.m
 —————————————————————
 An initialisation script which, for a set of “reasonable” parameters, simulates the two-state model with measurement noise, and then runs the MCMC algorithm (1000 samples) on the simulated trajectory. (Using the simulated noise variance as the variance in the MCMC algorithm.) Also plots the relevant MCMC output. This file takes around 30 seconds to run on my four year old MacBook Pro (4GB RAM).
 
+Also included is the ApproxModel folder, which contains files for the approximate likelihood model MCMC and marginal likelihood calculations.
