@@ -1,4 +1,8 @@
-function [P,P_summary] = TwoStateNoiseMH(Traj,alg_parameters,prior,onchains,initial_values,figures)
+function [MCMCOutput,MCMCOutputSummary] = TwoStateNoiseMH(Traj,alg_parameters,prior,onchains,initial_values,figures)
+% MCMC algorithm for inference of approx two-state model.
+% see Slator et al., PLOS ONE, 2015
+% Paddy Slator, Warwick Systems Biology Centre
+
 
 MCMC_steps=alg_parameters.MCMC_steps;
 burn_in=alg_parameters.burn_in;
@@ -497,7 +501,7 @@ for i=2:MCMC_steps
 end
 
 AcceptanceRate=Moves/(MCMC_steps-burn_in);
-P.AcceptanceRate=AcceptanceRate;
+MCMCOutput.AcceptanceRate=AcceptanceRate;
 
 if alg_parameters.swap
     %swap chains to make D_2 the bound state
@@ -519,111 +523,111 @@ if alg_parameters.swap
     end
 end
 
-P.D_1_chain=D_1_chain;
-P.D_2_chain=D_2_chain;
-P.noise_chain=noise_chain;
-P.p_12_chain=p_12_chain;
-P.p_21_chain=p_21_chain;
-P.z_chain=z_chain;
+MCMCOutput.D_1_chain=D_1_chain;
+MCMCOutput.D_2_chain=D_2_chain;
+MCMCOutput.noise_chain=noise_chain;
+MCMCOutput.p_12_chain=p_12_chain;
+MCMCOutput.p_21_chain=p_21_chain;
+MCMCOutput.z_chain=z_chain;
 
-z_mean=mean(P.z_chain(burn_in/thin+1:end,:));
-
-
-P.z_mean=z_mean;
-P.z_post=z_mean-1;
-
-P.LogLikelihood=LogLikelihood;
+z_mean=mean(MCMCOutput.z_chain(burn_in/thin+1:end,:));
 
 
-P.MAP=[mean(D_1_chain(burn_in/thin+1:end))...
+MCMCOutput.z_mean=z_mean;
+MCMCOutput.z_post=z_mean-1;
+
+MCMCOutput.LogLikelihood=LogLikelihood;
+
+
+MCMCOutput.MAP=[mean(D_1_chain(burn_in/thin+1:end))...
     mean(D_2_chain(burn_in/thin+1:end))...
     mean(p_12_chain(burn_in/thin+1:end))...
     mean(p_21_chain(burn_in/thin+1:end))...
     mean(noise_chain(burn_in/thin+1:end))];
 
-P.FinalState.D_1=D_1_chain(end);
-P.FinalState.D_2=D_2_chain(end);
-P.FinalState.p_12=p_12_chain(end);
-P.FinalState.p_21=p_21_chain(end);
-P.FinalState.noise=noise_chain(end);
-P.FinalState.z=z_chain(end,:);
+MCMCOutput.FinalState.D_1=D_1_chain(end);
+MCMCOutput.FinalState.D_2=D_2_chain(end);
+MCMCOutput.FinalState.p_12=p_12_chain(end);
+MCMCOutput.FinalState.p_21=p_21_chain(end);
+MCMCOutput.FinalState.noise=noise_chain(end);
+MCMCOutput.FinalState.z=z_chain(end,:);
 
 
-P.alg_parameters=alg_parameters;
-P.prior=prior;
+MCMCOutput.alg_parameters=alg_parameters;
+MCMCOutput.prior=prior;
 
-P.FixedNoise=noise;
+MCMCOutput.FixedNoise=noise;
 
-P.Traj=Traj;
+MCMCOutput.Traj=Traj;
 
-P.TotalMovesD_1=TotalMovesD_1;
-P.TotalMovesD_2=TotalMovesD_2;
+MCMCOutput.TotalMovesD_1=TotalMovesD_1;
+MCMCOutput.TotalMovesD_2=TotalMovesD_2;
 
-P.ParameterPosteriorSamples=[D_1_chain(burn_in/thin+1:end)...
+MCMCOutput.ParameterPosteriorSamples=[D_1_chain(burn_in/thin+1:end)...
     D_2_chain(burn_in/thin+1:end)...
     p_12_chain(burn_in/thin+1:end)...
     p_21_chain(burn_in/thin+1:end)...
     noise_chain(burn_in/thin+1:end)];
 
-P.zPosteriorSamples=z_chain(burn_in/thin+1:end,:);
+MCMCOutput.zPosteriorSamples=z_chain(burn_in/thin+1:end,:);
 
-P.TunedMHSD.D_1=MHD_1_SD;
-P.TunedMHSD.D_2=MHD_2_SD;
-P.TunedMHSD.Noise=MHNoise_SD;
+MCMCOutput.TunedMHSD.D_1=MHD_1_SD;
+MCMCOutput.TunedMHSD.D_2=MHD_2_SD;
+MCMCOutput.TunedMHSD.Noise=MHNoise_SD;
 
-P_summary.TunedMHSD=P.TunedMHSD;
+MCMCOutputSummary.TunedMHSD=MCMCOutput.TunedMHSD;
 
 %Log likelihood for MAP parameters
-MAPLikelihood=LogLikelihoodTwoStateMH(Traj,P.MAP);
-P.MAPLikelihood=MAPLikelihood;
+MAPLikelihood=LogLikelihoodTwoStateMH(Traj,MCMCOutput.MAP);
+MCMCOutput.MAPLikelihood=MAPLikelihood;
 %BIC
 NParameters=4;
 BIC=-2*MAPLikelihood+NParameters*log(N);
-P.BIC=BIC;
+MCMCOutput.BIC=BIC;
 %AIC
 AIC=-2*MAPLikelihood-2*NParameters;
-P.AIC=AIC;
+MCMCOutput.AIC=AIC;
 %Chib method for marginal likelihood
 % if alg_parameters.MarginalLikelihood
 %     MarginalLikelihood=ChibBindingNoiseMH(P,MAPLikelihood);
 %     P.MarginalLikelihood=MarginalLikelihood;
 % end
 
-MarginalLikelihood=ChenTwoStateNoiseMH(P,MAPLikelihood);
-P.MarginalLikelihood=MarginalLikelihood;
-P_summary.MarginalLikelihood=MarginalLikelihood;
+MarginalLikelihood=ChenTwoStateNoiseMH(MCMCOutput,MAPLikelihood);
+MCMCOutput.MarginalLikelihood=MarginalLikelihood;
+MCMCOutputSummary.MarginalLikelihood=MarginalLikelihood;
 
-P_summary.TotalMovesD_1=TotalMovesD_1;
-P_summary.TotalMovesD_2=TotalMovesD_2;
-
-
-P_summary.D_1_chain=D_1_chain;
-P_summary.D_2_chain=D_2_chain;
-P_summary.noise_chain=noise_chain;
-P_summary.p_12_chain=p_12_chain;
-P_summary.p_21_chain=p_21_chain;
-
-P_summary.Parameters={'D_0','D_1','p_01','p_10','sigma2'};
-
-P_summary.z_mean=z_mean;
-P_summary.z_post=z_mean-1;
-
-P_summary.LogLikelihood=LogLikelihood;
+MCMCOutputSummary.TotalMovesD_1=TotalMovesD_1;
+MCMCOutputSummary.TotalMovesD_2=TotalMovesD_2;
 
 
-P_summary.MAP=P.MAP;
+MCMCOutputSummary.D_1_chain=D_1_chain;
+MCMCOutputSummary.D_2_chain=D_2_chain;
+MCMCOutputSummary.noise_chain=noise_chain;
+MCMCOutputSummary.p_12_chain=p_12_chain;
+MCMCOutputSummary.p_21_chain=p_21_chain;
 
-P_summary.FinalState=P.FinalState;
+MCMCOutputSummary.Parameters={'D_0','D_1','p_01','p_10','sigma2'};
 
-P_summary.ParameterPosteriorSamples=P.ParameterPosteriorSamples;
+MCMCOutputSummary.z_mean=z_mean;
+MCMCOutputSummary.z_post=z_mean-1;
+
+MCMCOutputSummary.LogLikelihood=LogLikelihood;
 
 
-P_summary.alg_parameters=alg_parameters;
-P_summary.prior=prior;
+MCMCOutputSummary.MAP=MCMCOutput.MAP;
 
-P_summary.FixedNoise=noise;
+MCMCOutputSummary.FinalState=MCMCOutput.FinalState;
 
-P_summary.Traj=Traj;
+MCMCOutputSummary.ParameterPosteriorSamples=MCMCOutput.ParameterPosteriorSamples;
+
+
+MCMCOutputSummary.alg_parameters=alg_parameters;
+MCMCOutputSummary.prior=prior;
+
+MCMCOutputSummary.FixedNoise=noise;
+
+MCMCOutputSummary.Traj=Traj;
 
 
 

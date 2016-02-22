@@ -1,12 +1,11 @@
 function MarginalLikelihood=ChenTwoStateNoiseMH(MCMCOutput,LogLikelihood)
-% Calculate Marginal likelkihood  for two-state diffusion with measurement
-% noise (approximate likelihood) model using Chen's method
-% 
-% see Slator et al., PLOS ONE, 2015, and also
-% Chen MH. Computing marginal likelihoods from a single MCMC output. 
-% Statistica Neerlandica. 2005 Jan;59(1):16?29. doi: 10.1111/j.1467-9574.2005.00276.x.
-%
-% Paddy Slator, Warwick Systems Biology Centre
+function [MCMCOutput,MCMCOutputSummary] = TwoStateDiffusionExactMCMC(Traj,alg_parameters,prior,onchains,initial_values,figures)
+% MCMC inference for two-state diffusion with measurement noise model
+% (using the exact likelihood)
+% see Slator et al., PLOS ONE, 2015
+ansd
+%Chen MH. Computing marginal likelihoods from a single MCMC output. 
+%Statistica Neerlandica. 2005 Jan;59(1):16?29. doi: 10.1111/j.1467-9574.2005.00276.x.
 
 burn_in=MCMCOutput.alg_parameters.burn_in;
 thin=MCMCOutput.alg_parameters.thin;

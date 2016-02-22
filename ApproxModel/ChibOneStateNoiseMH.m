@@ -1,5 +1,14 @@
 function MarginalLikelihood = ChibOneStateNoiseMH(MCMCOutput)
+% Calculate Marginal likelkihood  for one-state diffusion with measurement
+% noise (approximate likelihood) model using Chibs's method
+% 
+% see Slator et al., PLOS ONE, 2015, 
+% and also
+% Chib S, Jeliazkov I. Marginal likelihood from the Metropolis?Hastings output.
+% Journal of the American Statistical Association. 2001;96(453):270?281. 
+% doi: 10.1198/016214501750332848.
 %
+% Paddy Slator, Warwick Systems Biology Centre
 
 
 

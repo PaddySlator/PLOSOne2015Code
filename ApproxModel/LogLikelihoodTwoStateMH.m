@@ -1,4 +1,8 @@
 function LogLikelihood = LogLikelihoodTwoStateMH(Traj,parameters)
+% Calculate log likelihood for approx two-state model (forward algorithm).
+% see Slator et al., PLOS ONE, 2015
+% also Das, Cairo, Coombs, PLOS Computational Biology, 2009
+% Paddy Slator, Warwick Systems Biology Centre
 
 D_1 = parameters(1);
 D_2 = parameters(2);

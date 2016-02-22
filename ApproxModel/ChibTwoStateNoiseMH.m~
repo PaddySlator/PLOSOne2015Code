@@ -2,7 +2,7 @@ function [MarginalLikelihood,PReduced]=ChibTwoStateNoiseMH(P,LogLikelihood)
 % Calculate Marginal likelkihood  for two-state diffusion with measurement
 % noise (approximate likelihood) model using Chibs's method
 % 
-% (This is mentioned in Slator et al., PLOS ONE, 2015, but not used in the paper.)
+% (This is mentioned in, Slator et al., PLOS ONE, 2015, but not us)
 %
 % Reference: Chib S, Jeliazkov I. Marginal likelihood from the Metropolis?Hastings output.
 % Journal of the American Statistical Association. 2001;96(453):270?281. 

@@ -1,4 +1,9 @@
-function P = OneStateNoiseMH(Traj,alg_parameters,prior,onchains,initial_values,figures)
+function MCMCOutput = OneStateNoiseMH(Traj,alg_parameters,prior,onchains,initial_values,figures)
+% MCMC algorithm (Metropolis-Hastings and Gibbs moves) for inference of approx one-state model.
+% see Slator et al., PLOS ONE, 2015
+% Paddy Slator, Warwick Systems Biology Centre
+
+
 
 MCMC_steps=alg_parameters.MCMC_steps;
 burn_in=alg_parameters.burn_in;
@@ -268,43 +273,43 @@ for i=2:MCMC_steps
 end
 
 
-P.sigma2_Michalet=sigma2_Michalet;
-P.MH_D_SD=MH_D_SD;
-P.MHNoise_SD=MHNoise_SD;
-P.TotalMoves=TotalMoves;
+MCMCOutput.sigma2_Michalet=sigma2_Michalet;
+MCMCOutput.MH_D_SD=MH_D_SD;
+MCMCOutput.MHNoise_SD=MHNoise_SD;
+MCMCOutput.TotalMoves=TotalMoves;
 
-P.DChain=DChain;
-P.noiseChain=noiseChain;
-P.LogLikelihood=LogLikelihood;
+MCMCOutput.DChain=DChain;
+MCMCOutput.noiseChain=noiseChain;
+MCMCOutput.LogLikelihood=LogLikelihood;
 
-P.MAP(1)=mean(DChain(burn_in/thin+1:end));
-P.MAP(2)=mean(noiseChain(burn_in/thin+1:end));
+MCMCOutput.MAP(1)=mean(DChain(burn_in/thin+1:end));
+MCMCOutput.MAP(2)=mean(noiseChain(burn_in/thin+1:end));
 
-MAPLikelihood=LogLikelihoodOneStateMH(Traj,[P.MAP noise]);
-P.MAPLikelihood=MAPLikelihood;
+MAPLikelihood=LogLikelihoodOneStateMH(Traj,[MCMCOutput.MAP noise]);
+MCMCOutput.MAPLikelihood=MAPLikelihood;
 %BIC
 NParameters=1;
 BIC=-2*MAPLikelihood+NParameters*log(N);
-P.BIC=BIC;
+MCMCOutput.BIC=BIC;
 %AIC
 AIC=-2*MAPLikelihood-2*NParameters;
-P.AIC=AIC;
+MCMCOutput.AIC=AIC;
 
-P.Parameters={'D','sigma2'};
+MCMCOutput.Parameters={'D','sigma2'};
 
-P.alg_parameters=alg_parameters;
-P.prior=prior;
+MCMCOutput.alg_parameters=alg_parameters;
+MCMCOutput.prior=prior;
 
-P.FixedNoise=noise;
+MCMCOutput.FixedNoise=noise;
 
-P.Traj=Traj;
+MCMCOutput.Traj=Traj;
 
-P.ParameterPosteriorSamples=[DChain(burn_in/thin+1:end) noiseChain(burn_in/thin+1:end)];
+MCMCOutput.ParameterPosteriorSamples=[DChain(burn_in/thin+1:end) noiseChain(burn_in/thin+1:end)];
 
 
-MarginalLikelihood=ChibOneStateNoiseMH(P);
+MarginalLikelihood=ChibOneStateNoiseMH(MCMCOutput);
 
-P.MarginalLikelihood=MarginalLikelihood;
+MCMCOutput.MarginalLikelihood=MarginalLikelihood;
 
 
 

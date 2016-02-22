@@ -1,4 +1,8 @@
 function LogLikelihood = LogLikelihoodOneStateMH(O,parameters)
+% Calculate log likelihood for approx one-state model.
+% see Slator et al., PLOS ONE, 2015
+% Paddy Slator, Warwick Systems Biology Centre
+
 
 D=parameters(1);
 noise=parameters(2);
