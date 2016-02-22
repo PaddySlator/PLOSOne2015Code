@@ -151,13 +151,3 @@ col=MCMCOutput.z_mean;
 caxis([0 1])
 surface([X;X],[Y;Y],[Z;Z],[col;col],'facecol','no','edgecol','interp','linew',.5);
 colorbar('Location','SouthOutside','Ticks',[0 1],'TickLabels',MCMCOutput.Parameters(1:2))
-
-
-
-
-
-
-
-
-
-
