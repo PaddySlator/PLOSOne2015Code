@@ -1,4 +1,7 @@
 function MarginalLikelihood = ChibOneStateNoiseMH(MCMCOutput)
+%
+
+
 
 burn_in=MCMCOutput.alg_parameters.burn_in;
 thin=MCMCOutput.alg_parameters.thin;
@@ -72,8 +75,8 @@ MarginalCorrection=-log(NPostSamples)...
     +log(NPostSamples)...
     -log(sum(exp(LogAlphaJump)));
 
-LogLikelihood=LogLikelihoodOneStateMH(Traj,[D_MAP noise_MAP])
-LogPrior=-log(D_max)-log(normpdf(noise_MAP,sigma2_Michalet,MH_D_SD))
+LogLikelihood=LogLikelihoodOneStateMH(Traj,[D_MAP noise_MAP]);
+LogPrior=-log(D_max)-log(normpdf(noise_MAP,sigma2_Michalet,MH_D_SD));
 
 MarginalLikelihood=LogLikelihood...
     +LogPrior...
